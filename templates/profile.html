@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="profile_container">
+    <div class="profile_info">
+        <div class="cart">
+            <div class="img">
+                {% if user_profile.avatar %}
+                    <img class="circle story" src="{{ user_profile.avatar.url }}" alt="User Avatar">
+                {% else %}
+                    <img class="circle story" src="https://i.pinimg.com/736x/4c/85/31/4c8531dbc05c77cb7a5893297977ac89.jpg" alt="Default Avatar">
+                {% endif %}
+            </div>
+            <div class="info">
+                <p class="name">{{ user_profile.username }}</p>
+                <div class="general_info">
+                    <p><span>{{ user_profile.posts.count }}</span> posts</p> <!-- Отображаем количество постов -->
+                    <p><span>{{ user_profile.my_followers.count }}</span> followers</p>
+                    <p><span>{{ user_profile.my_following.count }}</span> following</p>
+                </div>
+                <p class="nick_name">{{ user_profile.first_name }} {{ user_profile.last_name }}</p>
+
+                <!-- Кнопка для редактирования профиля -->
+                <a href="{% url 'edit_profile' %}" class="btn btn-secondary mb-3">Edit your bio</a>
+                <p>{{ user_profile.bio }}</p>
+
+                <!-- Кнопка подписки/отписки -->
+                {% if user_profile != request.user %}
+                    {% if user_profile in request.user.my_following.all %}
+                        <a href="{% url 'unfollow-user' user_profile.id %}" class="btn btn-danger">Unfollow</a>
+                    {% else %}
+                        <a href="{% url 'follow-user' user_profile.id %}" class="btn btn-primary">Follow</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="posts_profile">
+        <ul class="nav-pills w-100 d-flex justify-content-center" id="pills-tab" role="tablist">
+            <li class="nav-item mx-2" role="presentation">
+                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+                    <img src="{% static 'images/feed.png' %}" alt="posts"> POSTS
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+                <div id="posts_sec" class="post">
+                    {% for post in posts %}
+                        <div class="item mb-3">
+                            <img class="img-fluid item_img" src="{{ post.image.url }}" alt="{{ post.content }}">
+                            <p>{{ post.content }}</p>
+                        </div>
+                    {% empty %}
+                        <p class="text-center">No posts yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

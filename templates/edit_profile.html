@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; background: linear-gradient(to right, #8e44ad, #ff7eb9);">
+    <div style="width: 100%; max-width: 600px; padding: 30px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+      <h2 style="text-align: center; margin-bottom: 20px; color: #8e44ad;">Edit Profile</h2>
+      <form method="POST">
+        {% csrf_token %}
+        <div style="margin-bottom: 20px;">
+          <label for="id_bio" style="display: block; font-size: 16px; margin-bottom: 5px; color: #8e44ad;">Description:</label>
+          <textarea id="id_bio" name="bio" rows="4" style="width: 100%; padding: 12px; border: 2px solid #8e44ad; border-radius: 5px; resize: vertical; font-size: 16px; font-family: 'Arial', sans-serif; color: #333;">{{ form.bio.value }}</textarea>
+        </div>
+        <div style="text-align: center;">
+          <button type="submit" style="padding: 12px 25px; background-color: #8e44ad; color: white; border: none; border-radius: 50px; cursor: pointer; font-size: 16px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); transition: background-color 0.3s ease-in-out;">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/save.png" alt="Save Icon" style="vertical-align: middle; margin-right: 8px;">
+            Save changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

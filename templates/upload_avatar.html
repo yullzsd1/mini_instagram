@@ -1,0 +1,185 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Avatar</title>
+  <style>
+    /* General body styling */
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #ff66b2, #7a5fff); /* Pink to Purple gradient */
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+    }
+
+    /* Container for the avatar upload form */
+    .upload-avatar-container {
+      background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+      width: 90%;
+      max-width: 420px;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 25px;
+      color: #ff66b2; /* Pink header */
+      font-weight: bold;
+    }
+
+    /* Error message styling */
+    .error-message {
+      color: red;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    /* Upload form styling */
+    .upload-avatar-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .upload-label {
+      font-size: 18px;
+      margin-bottom: 12px;
+      font-weight: bold;
+      color: #fff; /* White label */
+    }
+
+    .file-input {
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: 2px solid #ff66b2; /* Pink border */
+      background-color: #333; /* Dark background for the input */
+      color: white;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .file-input::file-selector-button {
+      background-color: #ff66b2; /* Pink button for file input */
+      border-radius: 10px;
+      color: white;
+      padding: 10px 20px;
+    }
+
+    .file-input::file-selector-button:hover {
+      background-color: #ff3399; /* Darker pink on hover */
+    }
+
+    .image-preview-container {
+      margin-bottom: 25px;
+    }
+
+    .avatar-preview {
+      max-width: 120px;
+      border-radius: 50%;
+      border: 5px solid #ff66b2; /* Pink border around the avatar */
+      margin-top: 10px;
+    }
+
+    .save-button {
+      background-color: #ff66b2; /* Pink button */
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: background-color 0.3s ease;
+      width: 60%;
+      margin-top: 20px;
+    }
+
+    .save-button:hover {
+      background-color: #ff3399; /* Darker pink on hover */
+    }
+
+    /* Fancy animations for the form */
+    .upload-avatar-container {
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    /* Keyframes for fade-in animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Background elements (decorative images) */
+    .background-image {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0.1;
+      z-index: -1;
+    }
+
+    /* Floating decorative elements */
+    .background-image-float {
+      position: absolute;
+      top: 10%;
+      right: 20%;
+      opacity: 0.15;
+      z-index: -1;
+      width: 150px;
+    }
+
+    .background-image-float-2 {
+      position: absolute;
+      bottom: 5%;
+      left: 15%;
+      opacity: 0.1;
+      z-index: -1;
+      width: 130px;
+    }
+  </style>
+</head>
+<body>
+  <div class="upload-avatar-container">
+    <h2>Загрузить аватар</h2>
+
+    {% if error %}
+      <p class="error-message">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" class="upload-avatar-form">
+      {% csrf_token %}
+      <label for="avatar" class="upload-label">Выберите аватар</label>
+      <input type="file" id="avatar" name="avatar" accept="image/*" class="file-input">
+
+      <div class="image-preview-container">
+        <img id="avatar-preview" src="{% if user.account.avatar %}{{ user.account.avatar.url }}{% else %}{% static 'default-avatar.png' %}{% endif %}" alt="Preview" class="avatar-preview">
+      </div>
+
+      <button type="submit" class="save-button">Сохранить</button>
+    </form>
+  </div>
+
+  <!-- Decorative background images -->
+  <img src="{% static 'background_image_1.png' %}" class="background-image" alt="Decorative Background">
+  <img src="{% static 'background_image_2.png' %}" class="background-image-float" alt="Floating Decorative Image 1">
+  <img src="{% static 'background_image_3.png' %}" class="background-image-float-2" alt="Floating Decorative Image 2">
+</body>
+</html>
